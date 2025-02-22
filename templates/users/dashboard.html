@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h2>Welcome, {{ request.user.username }}</h2>
+
+    <h3>Your Unique Upload URL:</h3>
+    <p>Share this link with customers: <b>http://127.0.0.1:8000/upload/{{ request.user.unique_url }}/</b></p>
+
+    <h3>Uploaded Documents:</h3>
+    <ul>
+        {% for doc in documents %}
+            <li><a href="{{ doc.file.url }}">{{ doc.file.name }}</a> (Uploaded on {{ doc.uploaded_at }})</li>
+        {% empty %}
+            <li>No files uploaded yet.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>

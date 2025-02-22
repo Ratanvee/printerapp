@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Successful</title>
+</head>
+<body>
+    <h2>Document successfully uploaded for {{ user.username }}!</h2>
+    <a href="{% url 'upload_document' user.unique_url %}">Upload another file</a>
+</body>
+</html>

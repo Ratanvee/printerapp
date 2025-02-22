@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-m4+7$0&px628lq3$kn9u8dkox#moomufqx3d216%b!1wqx0h2w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['printerapp-rehk.onrender.com', '127.0.0.1', 'localhost']
 
 
 # Application definition

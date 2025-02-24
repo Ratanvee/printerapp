@@ -1,12 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Responsive Navbar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* Navbar background */
+        .navbar {
+            background-color: #212529;
+        }
+
+        /* Navbar brand styling */
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+        }
+
+        .navbar-brand span {
+            border: 1px solid white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        /* Navbar links */
+        .nav-link {
+            color: #bbb !important;
+            font-size: 18px;
+        }
+
+        .nav-link.active {
+            color: white !important;
+        }
+
+        .nav-link:hover {
+            color: #007bff !important;
+        }
+
+        /* Buttons inside menu */
+        .btn-login,
+        .btn-signup {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin: 5px 0;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        .btn-login {
+            color: #007bff;
+            border: 1px solid #007bff;
+        }
+
+        .btn-login:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-signup {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .btn-signup:hover {
+            background-color: #0056b3;
+        }
+
+        /* Toggle Button */
+        .navbar-toggler {
+            border: none;
+            outline: none;
+            background: none;
+        }
+
+        .navbar-toggler i {
+            font-size: 28px;
+            color: white;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        #navbarNav {
+            max-height: 0;
+            opacity: 0;
+            transform: translateY(-20px);
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out, opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
+        }
+
+        #navbarNav.show {
+            max-height: 500px;
+            /* Adjust based on content size */
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+
+        /* Hide toggler when width is more than 760px */
+        @media (min-width: 760px) {
+            .navbar-toggler {
+                display: block;
+            }
+        }
+
+        /* Default styles (menu always visible for large screens) */
+        @media (min-width: 760px) {
+            #menuToggle {
+                display: none;
+                /* Hide toggle button */
+            }
+
+            #navbarNav {
+                display: flex !important;
+                /* Always show menu */
+                max-height: none;
+                /* Remove height restriction */
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        /* Mobile styles (hide menu by default, show toggle button) */
+        @media (max-width: 760px) {
+            #menuToggle {
+                display: block;
+                /* Show toggle button */
+                cursor: pointer;
+            }
+
+            #navbarNav {
+                display: block;
+                max-height: 0;
+                opacity: 0;
+                transform: translateY(-20px);
+                overflow: hidden;
+                transition: max-height 0.7s ease-in-out, opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
+            }
+
+            #navbarNav.show {
+                max-height: 500px;
+                /* Adjust based on content */
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h1>This is home page </h1>
-    
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Brand -->
+            <a class="navbar-brand" href="#"><span>LOGO</span></a>
+
+            <!-- Toggle Button -->
+            <button class="navbar-toggler" type="button" id="menuToggle">
+                <img src="/static/icons/menu.png" id="menuIcon" width="28" height="28" alt="Menu Icon">
+            </button>
+
+
+            <!-- Menu Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">FAQs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <!-- Login & Sign-up inside menu when collapsed -->
+                    <li class="nav-item d-lg-none">
+                        <a href="/login" class="btn btn-login">Login</a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a href="/register" class="btn btn-signup">Sign-up</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Login & Sign-up outside menu on larger screens -->
+            <div class="d-none d-lg-block">
+                <a href="/login" class="btn btn-outline-primary me-2">Login</a>
+                <a href="/register" class="btn btn-primary">Sign-up</a>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        document.getElementById("menuToggle").addEventListener("click", function () {
+            let menu = document.getElementById("navbarNav");
+            let icon = document.getElementById("menuIcon");
+            let navbar = document.querySelector(".navbar");
+
+            if (menu.classList.contains("show")) {
+                // Closing Animation
+                menu.style.maxHeight = "0";
+                menu.style.opacity = "0";
+                // icon.style.borderRadius = "0px";
+                navbar.style.borderRadius = "0px";
+                menu.style.transform = "translateY(-20px)";
+                setTimeout(() => menu.classList.remove("show"), 700);
+                icon.src = "/static/icons/menu.png";  // Change to menu icon
+            } else {
+                // Opening Animation - Add class first, then trigger animation
+                menu.classList.add("show");
+                setTimeout(() => {
+                    menu.style.maxHeight = "500px";
+                    menu.style.opacity = "1";
+                    menu.style.transform = "translateY(0)";
+                    navbar.style.borderRadius = "0px 0px 15px 15px";
+
+                    // icon.style.borderRadius = "15px";
+                }, 10);  // Small delay to trigger animation  
+                icon.src = "/static/icons/remove.png";  // Change to close icon
+            }
+        });
+
+
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

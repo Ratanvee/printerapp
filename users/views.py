@@ -4,6 +4,11 @@ from django.contrib.auth.decorators import login_required
 from .models import CustomUser, Document
 from .forms import RegisterForm, DocumentForm
 
+
+
+def home(request):
+    return render(request, 'users/home.html')
+
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)

@@ -1,15 +1,57 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Upload Document</title>
 </head>
+
 <body>
     <h2>Upload a document for {{ user.username }}</h2>
-    
+    <!-- <p>User: {{ user.username }}</p>
+    <p>Total Orders: {{ total_orders }}</p>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Upload</button>
+    </form> -->
+
+    <!-- <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form> -->
+
+
+    <!-- <p>User: {{ user.username }}</p>
+    <p>Total Orders: {{ total_orders }}</p>
+    <p>Total Revenue: ₹{{ total_revenue }}</p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form> -->
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Upload File:</label>
+        {{ form.file }}
+    
+        <label>Print Type:</label>
+        {{ form.color_type }}
+    
+        <label>Number of Copies:</label>
+        {{ form.num_copies }}
+    
+        <label>Paper Size:</label>
+        {{ form.paper_size }}
+    
+        <label>Double-Sided Printing:</label>
+        {{ form.double_sided }}
+    
+        <button type="submit">Upload</button>
     </form>
+    
 </body>
+
 </html>

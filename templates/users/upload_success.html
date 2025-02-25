@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Upload Successful</title>
 </head>
+
 <body>
-    <h2>Document successfully uploaded for {{ user.username }}!</h2>
-    <a href="{% url 'upload_document' user.unique_url %}">Upload another file</a>
+    <!-- <h2>Document successfully uploaded for {{ user.username }}!</h2>
+    <a href="{% url 'upload_document' user.unique_url %}">Upload another file</a> -->
+    <h2>File uploaded successfully!</h2>
+    <p>User: {{ user.username }}</p>
+    <p>Total Uploaded Documents: {{ total_orders }}</p>
+    <p>Total Revenue: ₹{{ total_revenue }}</p>
+
+    <a href="{% url 'upload_document' user.unique_url %}">Upload More</a>
 </body>
+
 </html>

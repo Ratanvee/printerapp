@@ -7,7 +7,8 @@ class RegisterForm(UserCreationForm):
         model = CustomUser
         fields = ['username', 'email', 'password1', 'password2']
 
+
 class DocumentForm(forms.ModelForm):
     class Meta:
         model = Document
-        fields = ('file',)
+        fields = ['file', 'num_copies', 'color_type', 'double_sided']  # ❌ REMOVE 'paper_size'

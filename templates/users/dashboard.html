@@ -1,23 +1,185 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+
 </head>
+
 <body>
     <h2>Welcome, {{ request.user.username }}</h2>
 
     <h3>Your Unique Upload URL:</h3>
     <p>Share this link with customers: <b>http://127.0.0.1:8000/upload/{{ request.user.unique_url }}/</b></p>
 
+
+    <h2>Welcome, {{ user.username }}!</h2>
+
+    <div>
+        <h3>Your Dashboard</h3>
+
+        <!-- Summary Table -->
+        <table border="1">
+            <tr>
+                <th>Time Period</th>
+                <th>Total Orders</th>
+                <th>Total Revenue</th>
+            </tr>
+            <tr>
+                <td>Today</td>
+                <td>{{ stats.today.orders }}</td>
+                <td>₹{{ stats.today.revenue }}</td>
+            </tr>
+            <tr>
+                <td>This Week</td>
+                <td>{{ stats.week.orders }}</td>
+                <td>₹{{ stats.week.revenue }}</td>
+            </tr>
+            <tr>
+                <td>This Month</td>
+                <td>{{ stats.month.orders }}</td>
+                <td>₹{{ stats.month.revenue }}</td>
+            </tr>
+            <tr>
+                <td>This Year</td>
+                <td>{{ stats.year.orders }}</td>
+                <td>₹{{ stats.year.revenue }}</td>
+            </tr>
+            <tr>
+                <td>All Time</td>
+                <td>{{ stats.all_time.orders }}</td>
+                <td>₹{{ stats.all_time.revenue }}</td>
+            </tr>
+        </table>
+
+        <h3>Order Details</h3>
+        <table border="1">
+            <tr>
+                <th>File Name</th>
+                <th>Price</th>
+                <th>Uploaded By</th>
+                <th>Uploaded At</th>
+            </tr>
+            {% for order in all_orders %}
+            <tr>
+                <td>{{ order.file.name }}</td>
+                <td>₹{{ order.price }}</td>
+                <td>{{ order.uploaded_by.username }}</td>
+                <td>{{ order.uploaded_at }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+
+
+        <!-- Orders List -->
+        <h3>Your Orders</h3>
+        {% if all_orders %}
+        <table border="1">
+            <tr>
+                <th>File Name</th>
+                <th>Price</th>
+                <th>Uploaded At</th>
+            </tr>
+            {% for order in all_orders %}
+            <tr>
+                <td>{{ order.file.name }}</td>
+                <td>₹{{ order.price }}</td>
+                <td>{{ order.uploaded_at }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No orders found.</p>
+        {% endif %}
+    </div>
+
+    <!-- <a href="{% url 'upload_document' user.unique_url %}">Upload New Document</a> -->
+
+
+
     <h3>Uploaded Documents:</h3>
     <ul>
         {% for doc in documents %}
-            <li><a href="{{ doc.file.url }}">{{ doc.file.name }}</a> (Uploaded on {{ doc.uploaded_at }})</li>
+        <li><a href="{{ doc.file.url }}">{{ doc.file.name }}</a> (Uploaded on {{ doc.uploaded_at }})</li>
         {% empty %}
-            <li>No files uploaded yet.</li>
+        <li>No files uploaded yet.</li>
         {% endfor %}
     </ul>
 
     <a href="{% url 'logout' %}">Logout</a>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>Pages</th>
+                <th>Copies</th>
+                <th>Color Type</th>
+                <th>Double-Sided</th>
+                <th>Price (₹)</th>
+                <th>Uploaded At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in all_orders %}
+            <tr>
+                <td>{{ order.file.name }}</td>
+                <td>{{ order.num_pages }}</td>
+                <td>{{ order.num_copies }}</td>
+                <td>{{ order.color_type }}</td>
+                <td>{% if order.double_sided %} Yes {% else %} No {% endif %}</td>
+                <td>₹{{ order.price }}</td>
+                <td>{{ order.uploaded_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Orders Summary</h3>
+    <p>✅ Completed Orders: {{ completed_orders }}</p>
+    <p>🔄 In Process: {{ in_process_orders }}</p>
+    <p>⏳ Pending Orders: {{ pending_orders }}</p>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <style>
+        #qrcode {
+            display: inline-block;
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+        }
+    </style>
+
+    <h2>Your QR Code</h2>
+    <div id="qrcode"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let qrText = "http://127.0.0.1:8000/upload/" + "{{ request.user.unique_url|escapejs }}";  // Get URL from Django context
+            let qrDiv = document.getElementById("qrcode");
+
+            if (!qrText.trim()) {
+                qrDiv.innerHTML = "<p>No URL available</p>";
+                return;
+            }
+
+            // Create QR Code
+            let qr = qrcode(0, "L"); // Version 0, Low error correction
+            qr.addData(qrText);
+            qr.make();
+
+            // Display as SVG (not an image)
+            qrDiv.innerHTML = qr.createSvgTag(5, 0);
+        });
+    </script>
+
+
+
 </body>
+
 </html>

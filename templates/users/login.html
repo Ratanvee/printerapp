@@ -84,6 +84,7 @@
 
 <body>
     <div class="login-container">
+        <p style="color: red;">{{ error }}</p>
         <h2>Sign in</h2>
         <form method="post">
             {% csrf_token %}
@@ -96,7 +97,6 @@
             <button type="submit" class="login-btn">LOGIN</button>
         </form>
         <hr>
-        <button class="google-btn">&#x1F30D; SIGN IN WITH GOOGLE</button>
         <button class="facebook-btn">&#x1F30D; SIGN IN WITH FACEBOOK</button>
     </div>
 </body>
